@@ -80,7 +80,7 @@ SC_FUNC void writeleader(symbol *root,int *lbl_nostate,int *lbl_ignorestate)
   setlabel(*lbl_nostate);
 #if !defined AMX_NO_PACKED_OPC
   if (pc_optimize>sOPTIMIZE_NOMACRO) {
-    assert(AMX_ERR_INVSTATE<(1<<sizeof(cell)*4));
+    assert(AMX_ERR_INVSTATE<((ucell)1<<sizeof(cell)*4));
     stgwrite("\thalt.p ");
     outval(AMX_ERR_INVSTATE,TRUE,TRUE);
     code_idx+=opcodes(1);
@@ -966,7 +966,7 @@ SC_FUNC void modstk(int delta)
 {
   if (delta) {
 #if !defined AMX_NO_PACKED_OPC
-    if (!staging && pc_optimize>sOPTIMIZE_NOMACRO && delta>=-(1<<sizeof(cell)*4) && delta<(1<<sizeof(cell)*4)) {
+    if (!staging && pc_optimize>sOPTIMIZE_NOMACRO && delta>=-((ucell)1<<sizeof(cell)*4) && delta<((ucell)1<<sizeof(cell)*4)) {
       stgwrite("\tstack.p ");
       outval(delta,FALSE,TRUE);
       code_idx+=opcodes(1);
@@ -1003,7 +1003,7 @@ SC_FUNC void modheap(int delta)
 {
   if (delta) {
 #if !defined AMX_NO_PACKED_OPC
-    if (!staging && pc_optimize>sOPTIMIZE_NOMACRO && delta>=-(1<<sizeof(cell)*4) && delta<(1<<sizeof(cell)*4)) {
+    if (!staging && pc_optimize>sOPTIMIZE_NOMACRO && delta>=-((ucell)1<<sizeof(cell)*4) && delta<((ucell)1<<sizeof(cell)*4)) {
       stgwrite("\theap.p ");
       outval(delta,FALSE,TRUE);
       code_idx+=opcodes(1);
@@ -1133,7 +1133,7 @@ SC_FUNC void addconst(cell value)
 {
   if (value!=0) {
 #if !defined AMX_NO_PACKED_OPC
-    if (!staging && pc_optimize>sOPTIMIZE_NOMACRO && value>=-(1<<sizeof(cell)*4) && value<(1<<sizeof(cell)*4))
+    if (!staging && pc_optimize>sOPTIMIZE_NOMACRO && value>=-((ucell)1<<sizeof(cell)*4) && value<((ucell)1<<sizeof(cell)*4))
       stgwrite("\tadd.p.c ");
     else
 #endif

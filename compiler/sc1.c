@@ -741,7 +741,7 @@ cleanup:
         pc_printf("\n");
       } /* if */
       if (pc_overlays>1 && max_ovlsize>pc_overlays)
-        error(112,max_ovlsize-(1<<4*sizeof(cell))); //??? should also tell which function is causing this error
+        error(112,max_ovlsize-((ucell)1<<4*sizeof(cell))); //??? should also tell which function is causing this error
       if (flag_exceed)
         error(106,pc_amxlimit+pc_amxram); /* this causes a jump back to label "cleanup" */
     } /* if */
@@ -1184,8 +1184,8 @@ static void parseoptions(int argc,char **argv,char *oname,char *ename,char *pnam
         /* there is a technical limit on the size of an overlay of the max. number
          * that fits in half a cell
          */
-        if (pc_overlays>=(1<<4*sizeof(cell)))
-          pc_overlays=(1<<4*sizeof(cell));
+        if (pc_overlays>=((ucell)1<<4*sizeof(cell)))
+          pc_overlays=((ucell)1<<4*sizeof(cell));
         break;
       case 'v':
         optionptr=option_value(ptr);
@@ -1603,7 +1603,7 @@ static void setconstants(void)
   add_constant("charbits",sCHARBITS,sGLOBAL,0,FALSE);
   add_constant("charmin",0,sGLOBAL,0,FALSE);
   add_constant("charmax",~(-1 << sCHARBITS) - 1,sGLOBAL,0,FALSE);
-  add_constant("ucharmax",(1 << (sizeof(cell)-1)*8)-1,sGLOBAL,0,FALSE);
+  add_constant("ucharmax",((ucell)1 << (sizeof(cell)-1)*8)-1,sGLOBAL,0,FALSE);
 
   add_constant("__Pawn",VERSION_INT,sGLOBAL,0,FALSE);
 

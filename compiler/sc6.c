@@ -283,7 +283,7 @@ static cell parm1_p(FILE *fbin,const char *params,cell opcode,cell cip)
 {
   ucell p=getparamvalue(params,NULL);
   (void)cip;
-  assert(p<(1<<(sizeof(cell)*4)));
+  assert(p<((ucell)1<<(sizeof(cell)*4)));
   assert(opcode>=0 && opcode<=255);
   if (fbin!=NULL) {
     p=(p<<sizeof(cell)*4) | opcode;
